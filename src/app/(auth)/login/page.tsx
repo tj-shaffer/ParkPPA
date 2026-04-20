@@ -225,16 +225,7 @@ export default function LoginPage() {
                   </>
                 )}
               </button>
-            </form>
-
-            <hr className="divider" />
-
-            <div className={styles.guestOption}>
-              <p>Have a lease number?</p>
-              <button className="btn btn-outline btn-full" id="btn-guest-pay">
-                Pay as Guest
-              </button>
-            </div>
+          </form>
           </>
         )}
 

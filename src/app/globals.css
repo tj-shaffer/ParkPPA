@@ -203,6 +203,33 @@ a:hover {
   padding: 0 var(--content-padding);
 }
 
+/* Consumer mobile-first shell — constrains content to phone-width on desktop */
+.consumer-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  position: relative;
+  background: var(--ppa-gray-50);
+}
+
+/* On wider screens, add subtle side shadow for depth */
+@media (min-width: 481px) {
+  .consumer-shell {
+    box-shadow:
+      -1px 0 0 var(--ppa-gray-200),
+       1px 0 0 var(--ppa-gray-200),
+       0 0 40px rgba(27, 42, 74, 0.04);
+  }
+
+  /* Scope bottom nav to the consumer shell width */
+  .consumer-shell ~ .bottom-nav,
+  .consumer-shell .bottom-nav {
+    max-width: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .page {
   padding-top: var(--space-6);
   padding-bottom: calc(var(--bottom-nav) + var(--space-6));

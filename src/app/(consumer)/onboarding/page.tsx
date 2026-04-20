@@ -43,7 +43,7 @@ export default function OnboardingPage() {
 
     try {
       const res = await fetch("/api/users/me", {
-        method: "PUT",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstName: firstName.trim(),

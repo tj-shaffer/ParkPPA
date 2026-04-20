@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         isResident,
         residentProofStatus: isResident ? "PENDING" : "VERIFIED",
         startDate: new Date(),
-        status: "ACTIVE", // Active right away for demo purposes
+        status: "PENDING", // Requires PPA agent approval before activation
         notes,
       }
     });

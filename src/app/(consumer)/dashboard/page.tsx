@@ -257,10 +257,20 @@ export default function DashboardPage() {
                 Pay {formatCurrency(nextPayment.amount)}
               </Link>
             )}
-            {!lease.autoPay?.enabled && (
+            {!lease.autoPay?.enabled ? (
               <button className="btn btn-outline btn-full" id="btn-autopay" onClick={() => setShowAutoPayModal(true)}>
                 <Icon name="zap" size={16} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} /> Set Up Auto-Pay
               </button>
+            ) : (
+              <Link href="/lease" className="btn btn-outline btn-full" id="btn-manage-autopay">
+                <Icon name="zap" size={16} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
+                Manage Auto-Pay
+                {lease.autoPay.cardLast4 && (
+                  <span style={{ marginLeft: "auto", fontSize: "var(--text-xs)", opacity: 0.7 }}>
+                    {lease.autoPay.cardBrand || "Card"} ••{lease.autoPay.cardLast4}
+                  </span>
+                )}
+              </Link>
             )}
           </div>
         </div>

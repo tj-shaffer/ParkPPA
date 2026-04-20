@@ -1,0 +1,285 @@
+// ParkPGH — Pittsburgh Parking Authority Lease & Inventory Management
+// Database schema for garage management, leases, payments, and notifications
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Garages ──────────────────────────────────────────────────────────────────
+
+model Garage {
+  id                  String   @id @default(uuid())
+  name                String
+  address             String
+  neighborhood        String
+  lat                 Float?
+  lng                 Float?
+  totalSpaces         Int
+  leasedSpaces        Int      @default(0)
+  monthlyRate         Decimal  @db.Decimal(10, 2)
+  residentMonthlyRate Decimal? @db.Decimal(10, 2)
+  daytimeRate         Decimal? @db.Decimal(10, 2)
+  nightRate           Decimal? @db.Decimal(10, 2)
+  phone               String?
+  email               String?
+  imageUrl            String?
+  status              GarageStatus @default(ACTIVE)
+  operatingHours      String?
+  notes               String?
+
+  leases         Lease[]
+  waitlistEntries WaitlistEntry[]
+  managers       User[]          @relation("GarageManagers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum GarageStatus {
+  ACTIVE
+  MAINTENANCE
+  CLOSED
+}
+
+// ─── Users ────────────────────────────────────────────────────────────────────
+
+model User {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  phone            String?
+  firstName        String
+  lastName         String
+  role             UserRole @default(CONSUMER)
+  notifyPreference NotifyPreference @default(EMAIL)
+
+  managedGarages Garage[] @relation("GarageManagers")
+
+  leases          Lease[]
+  magicLinks      MagicLink[]
+  notifications   Notification[]
+  waitlistEntries WaitlistEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  CONSUMER
+  MANAGER
+  ADMIN
+}
+
+enum NotifyPreference {
+  EMAIL
+  SMS
+  BOTH
+}
+
+// ─── Leases ───────────────────────────────────────────────────────────────────
+
+model Lease {
+  id                  String   @id @default(uuid())
+  leaseNumber         String   @unique // Human-readable, e.g. PGH-2026-0042
+  garageId            String
+  userId              String
+  spotNumber          String?
+  type                LeaseType @default(TWENTY_FOUR_HR)
+  monthlyRate         Decimal  @db.Decimal(10, 2)
+  isResident          Boolean  @default(false)
+  residentProofStatus ResidentProofStatus @default(PENDING)
+  startDate           DateTime
+  endDate             DateTime? // null = month-to-month
+  autoRenew           Boolean  @default(true)
+  status              LeaseStatus @default(ACTIVE)
+  notes               String?
+
+  garage   Garage @relation(fields: [garageId], references: [id])
+  user     User   @relation(fields: [userId], references: [id])
+  payments Payment[]
+  autoPay  AutoPay?
+  notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum LeaseType {
+  TWENTY_FOUR_HR
+  DAYTIME
+  NIGHTTIME
+  WEEKEND
+}
+
+enum ResidentProofStatus {
+  PENDING
+  VERIFIED
+  EXPIRED
+}
+
+enum LeaseStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PENDING
+  SUSPENDED
+}
+
+// ─── Payments ─────────────────────────────────────────────────────────────────
+
+model Payment {
+  id          String   @id @default(uuid())
+  leaseId     String
+  amount      Decimal  @db.Decimal(10, 2)
+  dueDate     DateTime
+  paidAt      DateTime?
+  status      PaymentStatus @default(PENDING)
+  processorId String?  // Stripe charge ID or PayerExpress ref
+  processor   PaymentProcessor @default(MANUAL)
+  receiptUrl  String?
+
+  lease         Lease          @relation(fields: [leaseId], references: [id])
+  notifications Notification[]
+
+  createdAt DateTime @default(now())
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PAST_DUE
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProcessor {
+  STRIPE
+  PAYEREXPRESS
+  MANUAL
+}
+
+// ─── Auto-Pay ─────────────────────────────────────────────────────────────────
+
+model AutoPay {
+  id                    String  @id @default(uuid())
+  leaseId               String  @unique
+  stripeCustomerId      String?
+  stripePaymentMethodId String?
+  cardLast4             String?
+  cardBrand             String?
+  enabled               Boolean @default(true)
+
+  lease Lease @relation(fields: [leaseId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Magic Links ──────────────────────────────────────────────────────────────
+
+model MagicLink {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  purpose   MagicLinkPurpose @default(LOGIN)
+  expiresAt DateTime
+  used      Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+enum MagicLinkPurpose {
+  LOGIN
+  PAYMENT
+  LEASE_VIEW
+}
+
+// ─── OTP Codes (SMS Login) ────────────────────────────────────────────────────
+
+model OtpCode {
+  id        String   @id @default(uuid())
+  phone     String?  // for SMS OTP (future, once Twilio is verified)
+  email     String?  // for email OTP (Resend)
+  code      String   // 6-digit numeric string
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  attempts  Int      @default(0) // brute-force tracking
+
+  createdAt DateTime @default(now())
+
+  @@index([phone, code])
+  @@index([email, code])
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+model Notification {
+  id           String   @id @default(uuid())
+  userId       String
+  leaseId      String?
+  paymentId    String?
+  type         NotificationType
+  channel      NotificationChannel
+  content      String
+  status       NotificationStatus @default(PENDING)
+  scheduledFor DateTime?
+  sentAt       DateTime?
+
+  user    User     @relation(fields: [userId], references: [id])
+  lease   Lease?   @relation(fields: [leaseId], references: [id])
+  payment Payment? @relation(fields: [paymentId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+enum NotificationType {
+  PAYMENT_DUE
+  PAST_DUE
+  PAYMENT_CONFIRM
+  LEASE_EXPIRY
+  RATE_CHANGE
+  CLOSURE
+  WELCOME
+  CUSTOM
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+// ─── Waitlist ─────────────────────────────────────────────────────────────────
+
+model WaitlistEntry {
+  id            String   @id @default(uuid())
+  garageId      String
+  userId        String
+  requestedType LeaseType @default(TWENTY_FOUR_HR)
+  position      Int
+  status        WaitlistStatus @default(WAITING)
+
+  garage Garage @relation(fields: [garageId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum WaitlistStatus {
+  WAITING
+  OFFERED
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}

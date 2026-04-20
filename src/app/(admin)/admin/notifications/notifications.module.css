@@ -1,0 +1,52 @@
+/* Notifications Page Styles */
+
+.page {
+  max-width: 1100px;
+}
+
+.pageTitle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.pageTitle h1 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-1);
+}
+
+.pageTitle p {
+  color: var(--ppa-gray-400);
+  font-size: var(--text-sm);
+}
+
+/* ── Compose ──────────────────────────────────────────────────────────────── */
+.composeCard {
+  margin-bottom: var(--space-6);
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.composeForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Stats ────────────────────────────────────────────────────────────────── */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+  .pageTitle {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+}

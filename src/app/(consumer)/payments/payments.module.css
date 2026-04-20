@@ -1,0 +1,113 @@
+/* Payments Page Styles */
+
+.payments {
+  /* page wrapper */
+}
+
+/* ── Summary Row ──────────────────────────────────────────────────────────── */
+.summaryRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.summaryCard {
+  text-align: center;
+  padding: var(--space-4) !important;
+}
+
+.summaryLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ppa-gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-1);
+}
+
+.summaryValue {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.summaryValue.owed {
+  color: var(--color-danger);
+}
+
+.summaryValue.paid {
+  color: var(--color-success);
+}
+
+/* ── Filter Row ───────────────────────────────────────────────────────────── */
+.filterRow {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-1);
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ppa-gray-500);
+  background: var(--ppa-white);
+  border: 1.5px solid var(--ppa-gray-200);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.filterBtn:hover {
+  border-color: var(--ppa-navy);
+  color: var(--ppa-navy);
+}
+
+.filterActive {
+  background: var(--ppa-navy);
+  color: var(--ppa-white);
+  border-color: var(--ppa-navy);
+}
+
+.filterActive:hover {
+  background: var(--ppa-navy-deep);
+  border-color: var(--ppa-navy-deep);
+  color: var(--ppa-white);
+}
+
+.filterCount {
+  background: var(--ppa-crimson);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  min-width: 18px;
+  text-align: center;
+}
+
+.filterActive .filterCount {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Payment List ─────────────────────────────────────────────────────────── */
+.paymentList {
+  padding: var(--space-2) var(--space-5) !important;
+}
+
+.paymentRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}

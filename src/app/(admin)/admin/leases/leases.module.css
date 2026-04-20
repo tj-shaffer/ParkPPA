@@ -1,0 +1,98 @@
+/* Leases Page Styles */
+
+.page {
+  max-width: 1100px;
+}
+
+.pageTitle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.pageTitle h1 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-1);
+}
+
+.pageTitle p {
+  color: var(--ppa-gray-400);
+  font-size: var(--text-sm);
+}
+
+/* ── Search & Filters ─────────────────────────────────────────────────────── */
+.searchRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.filterRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ppa-gray-500);
+  background: var(--ppa-white);
+  border: 1.5px solid var(--ppa-gray-200);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filterBtn:hover {
+  border-color: var(--ppa-navy);
+  color: var(--ppa-navy);
+}
+
+.filterActive {
+  background: var(--ppa-navy);
+  color: white;
+  border-color: var(--ppa-navy);
+}
+
+.filterActive:hover {
+  background: var(--ppa-navy-deep);
+  color: white;
+  border-color: var(--ppa-navy-deep);
+}
+
+.filterCount {
+  background: var(--ppa-crimson);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  min-width: 18px;
+  text-align: center;
+}
+
+.filterActive .filterCount {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .searchRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filterRow {
+    overflow-x: auto;
+  }
+}

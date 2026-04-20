@@ -1,0 +1,259 @@
+/* Login Page Styles */
+
+.loginPage {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--ppa-navy) 0%,
+    var(--ppa-navy-hero) 40%,
+    var(--ppa-blue-mid) 70%,
+    var(--ppa-blue-light) 100%
+  );
+  z-index: 0;
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 30% 20%,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 60%
+  );
+}
+
+.loginCard {
+  position: relative;
+  z-index: 1;
+  background: var(--ppa-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-8);
+  width: 100%;
+  max-width: 420px;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* ── Logo ─────────────────────────────────────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.logoIcon {
+  flex-shrink: 0;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoBrand {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--ppa-navy);
+  letter-spacing: -0.02em;
+}
+
+.logoSub {
+  font-size: var(--text-xs);
+  color: var(--ppa-gray-400);
+  font-weight: 500;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────────── */
+.title {
+  font-size: var(--text-xl) !important;
+  margin-bottom: var(--space-2);
+}
+
+.subtitle {
+  font-size: var(--text-sm);
+  color: var(--ppa-gray-500);
+  margin-bottom: var(--space-6);
+  line-height: var(--leading-relaxed);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Phone Input ─────────────────────────────────────────────────────────── */
+.phoneInputWrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.phonePrefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-3);
+  height: 48px;
+  background: var(--ppa-gray-50);
+  border: 1px solid var(--ppa-gray-200);
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ppa-gray-500);
+  font-family: var(--font-mono);
+}
+
+.phoneInput {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-base) !important;
+  letter-spacing: 0.5px;
+}
+
+/* ── Code Inputs ─────────────────────────────────────────────────────────── */
+.codeForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.codeInputs {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.codeDigit {
+  width: 48px;
+  height: 56px;
+  border: 2px solid var(--ppa-gray-200);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--ppa-navy);
+  background: var(--ppa-white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  caret-color: var(--ppa-crimson);
+}
+
+.codeDigit:focus {
+  border-color: var(--ppa-blue-mid);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.codeDigitError {
+  border-color: var(--color-danger) !important;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.codeActions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.verifying {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ppa-gray-500);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+/* ── Loading ──────────────────────────────────────────────────────────────── */
+.loading {
+  pointer-events: none;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: var(--radius-full);
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Guest ────────────────────────────────────────────────────────────────── */
+.guestOption {
+  text-align: center;
+}
+
+.guestOption p {
+  font-size: var(--text-sm);
+  color: var(--ppa-gray-400);
+  margin-bottom: var(--space-3);
+}
+
+/* ── Sent State ───────────────────────────────────────────────────────────── */
+.sentState {
+  text-align: center;
+}
+
+.sentIcon {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.sentState .title {
+  text-align: center;
+}
+
+.sentState .subtitle {
+  text-align: center;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  font-size: var(--text-xs);
+  color: var(--ppa-gray-400);
+}
+
+.footer a {
+  color: var(--ppa-blue-mid);
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .loginCard {
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+  }
+}

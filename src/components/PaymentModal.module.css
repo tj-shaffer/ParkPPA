@@ -1,0 +1,217 @@
+/* Payment Modal Styles */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: var(--ppa-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--ppa-gray-100);
+}
+
+.headerTitle {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ppa-navy);
+}
+
+.headerSub {
+  font-size: var(--text-sm);
+  color: var(--ppa-gray-400);
+  margin-top: 2px;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────────── */
+
+.form {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--ppa-gray-50);
+  border-radius: var(--radius-md);
+}
+
+.amountLabel {
+  font-size: var(--text-sm);
+  color: var(--ppa-gray-500);
+  font-weight: 500;
+}
+
+.amountValue {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--ppa-navy);
+}
+
+.stripeElement {
+  min-height: 60px;
+}
+
+.cardLabel {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ppa-gray-700);
+  margin-bottom: var(--space-2);
+}
+
+.cardInputWrapper {
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--ppa-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--ppa-white);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cardInputWrapper:focus-within {
+  border-color: var(--ppa-blue-mid);
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+}
+
+.error {
+  padding: var(--space-3);
+  background: rgba(200, 16, 46, 0.08);
+  color: var(--color-danger);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}
+
+/* ── States ───────────────────────────────────────────────────────────────── */
+
+.loadingState {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ppa-gray-500);
+  font-size: var(--text-sm);
+}
+
+.successState {
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.successIcon {
+  font-size: 48px;
+  margin-bottom: var(--space-3);
+  animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.successTitle {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--ppa-navy);
+  margin-bottom: var(--space-2);
+}
+
+.successSub {
+  font-size: var(--text-sm);
+  color: var(--ppa-gray-500);
+}
+
+.errorState {
+  padding: var(--space-8);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+}
+
+.errorIcon {
+  font-size: 48px;
+}
+
+/* ── Test hint ────────────────────────────────────────────────────────────── */
+
+.testHint {
+  padding: var(--space-3) var(--space-6);
+  background: var(--ppa-gray-50);
+  border-top: 1px solid var(--ppa-gray-100);
+  font-size: var(--text-xs);
+  color: var(--ppa-gray-400);
+  text-align: center;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.testHint code {
+  font-family: var(--font-mono);
+  background: var(--ppa-gray-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--ppa-navy);
+  font-weight: 600;
+}
+
+/* ── Spinner ──────────────────────────────────────────────────────────────── */
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

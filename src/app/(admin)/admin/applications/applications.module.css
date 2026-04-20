@@ -1,0 +1,32 @@
+.filterPills {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pill {
+  padding: var(--space-2) var(--space-4);
+  background: var(--ppa-gray-50);
+  border: 1px solid var(--ppa-gray-200);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ppa-gray-600);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pill:hover {
+  background: var(--ppa-gray-100);
+  color: var(--ppa-navy);
+}
+
+.pillActive {
+  background: var(--ppa-navy);
+  border-color: var(--ppa-navy);
+  color: white;
+}
+
+.pillActive:hover {
+  background: var(--ppa-navy-deep);
+  color: white;
+}

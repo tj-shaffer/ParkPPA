@@ -1,0 +1,165 @@
+/* Revenue Page Styles */
+
+.page {
+  max-width: 1100px;
+}
+
+.pageTitle {
+  margin-bottom: var(--space-6);
+}
+
+.pageTitle h1 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-1);
+}
+
+.pageTitle p {
+  color: var(--ppa-gray-400);
+  font-size: var(--text-sm);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Bar Chart ────────────────────────────────────────────────────────────── */
+.chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 200px;
+  padding: var(--space-4) 0;
+  gap: var(--space-2);
+}
+
+.chartCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: var(--space-1);
+}
+
+.chartBarWrap {
+  width: 100%;
+  max-width: 48px;
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.chartBar {
+  width: 100%;
+  background: var(--ppa-navy);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  position: relative;
+  overflow: hidden;
+  transition: height var(--transition-slow);
+  min-height: 4px;
+}
+
+.chartBarCollected {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-success);
+  border-radius: 0;
+}
+
+.chartLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ppa-gray-400);
+}
+
+.chartValue {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ppa-gray-500);
+}
+
+.chartLegend {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--ppa-gray-100);
+  font-size: var(--text-xs);
+  color: var(--ppa-gray-500);
+}
+
+.legendDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ── Revenue by Garage ────────────────────────────────────────────────────── */
+.garageRevList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.garageRevRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.garageRevName {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ppa-navy);
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.garageRevBar {
+  flex: 1;
+  height: 8px;
+  background: var(--ppa-gray-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.garageRevFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ppa-navy) 0%, var(--ppa-blue-mid) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+.garageRevAmt {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ppa-navy);
+  min-width: 80px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .garageRevName {
+    min-width: 100px;
+    font-size: var(--text-xs);
+  }
+  .garageRevAmt {
+    font-size: var(--text-xs);
+    min-width: 60px;
+  }
+}

@@ -1,0 +1,237 @@
+/* Dashboard Page Styles */
+
+.dashboard {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dashboard.visible {
+  opacity: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Greeting ──────────────────────────────────────────────────────────────── */
+.greeting {
+  font-size: var(--text-sm);
+  color: var(--ppa-blue-pale) !important;
+  font-weight: 400;
+  margin-bottom: -2px;
+}
+
+/* ── Alert Banner ──────────────────────────────────────────────────────────── */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-light);
+  border: 1px solid rgba(200, 16, 46, 0.15);
+  border-radius: var(--radius-lg);
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.alertIcon {
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+}
+
+.alertContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.alertContent strong {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-danger-dark);
+}
+
+.alertContent span {
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
+
+/* ── Balance Card ──────────────────────────────────────────────────────────── */
+.balanceCard {
+  padding: var(--space-6) !important;
+}
+
+.balanceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.balanceLabel {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ppa-gray-400);
+}
+
+.balanceAmount {
+  font-family: var(--font-mono);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--ppa-navy);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: var(--space-2);
+}
+
+.balanceDue {
+  font-size: var(--text-sm);
+  color: var(--ppa-gray-500);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.balanceDueDate {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background: var(--ppa-gray-100);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  color: var(--ppa-gray-600);
+}
+
+.quickActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Lease Card ────────────────────────────────────────────────────────────── */
+.leaseCard {
+  position: relative;
+  text-decoration: none;
+  display: block;
+}
+
+.leaseDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.leaseDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.leaseDetailLabel {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--ppa-gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.leaseDetailValue {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ppa-navy);
+}
+
+.residentBadge {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-success-dark);
+  background: var(--color-success-light);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+}
+
+.autoPayBadge {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-info-dark);
+  background: var(--color-info-light);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.cardArrow {
+  position: absolute;
+  right: var(--space-5);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ppa-gray-300);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.leaseCard:hover .cardArrow {
+  transform: translateY(-50%) translateX(3px);
+  color: var(--ppa-crimson);
+}
+
+/* ── Occupancy Card ────────────────────────────────────────────────────────── */
+.occupancyCard {
+  /* inherits card */
+}
+
+.occupancyPercent {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--ppa-navy);
+}
+
+.occupancyMeta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ppa-gray-400);
+}
+
+/* ── Payment Feed ──────────────────────────────────────────────────────────── */
+.paymentFeed {
+  /* uses global payment-item styles */
+}
+
+/* ── Quick Info Grid ───────────────────────────────────────────────────────── */
+.quickInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.infoCard {
+  text-align: center;
+  padding: var(--space-4) !important;
+}
+
+.infoIcon {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.infoLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ppa-gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: var(--space-1);
+}
+
+.infoValue {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ppa-navy);
+  word-break: break-word;
+}

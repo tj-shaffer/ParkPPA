@@ -53,7 +53,7 @@ function SetupForm({
     setProcessing(true);
     setError("");
 
-    const { error: submitError } = await stripe.confirmCardSetup(clientSecret, {
+    const { error: submitError, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
       payment_method: { card: cardElement },
     });
 
@@ -61,6 +61,16 @@ function SetupForm({
       setError(submitError.message || "Auto-Pay setup failed. Please try again.");
       setProcessing(false);
     } else {
+      // Save card details to our database immediately (don't wait for webhook)
+      try {
+        await fetch("/api/payments/methods/confirm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ setupIntentId: setupIntent?.id }),
+        });
+      } catch (err) {
+        console.error("Failed to confirm payment method locally:", err);
+      }
       onSuccess();
     }
   };

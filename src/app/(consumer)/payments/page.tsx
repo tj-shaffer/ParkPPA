@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import { Icon, type IconName } from "@/components/icons/Icon";
 import styles from "./payments.module.css";
 import PaymentModal from "@/components/PaymentModal";
+import AutoPayModal from "@/components/AutoPayModal";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -16,6 +16,7 @@ interface Payment {
   paidAt: string | null;
   status: string;
   lease: {
+    id: string;
     garage: { name: string };
   };
 }
@@ -45,12 +46,26 @@ export default function PaymentsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<FilterType>("all");
   const [payingPayment, setPayingPayment] = useState<Payment | null>(null);
+  const [showMethodsModal, setShowMethodsModal] = useState(false);
+
+  // Track which payments just got paid (for UI transition)
+  const [justPaid, setJustPaid] = useState<Set<string>>(new Set());
+
+  // Get the primary lease ID for the methods modal
+  const [primaryLeaseId, setPrimaryLeaseId] = useState<string | null>(null);
+  const [primaryGarageName, setPrimaryGarageName] = useState("Your Garage");
 
   async function fetchPayments() {
     try {
       const res = await fetch("/api/payments");
       if (res.ok) {
-        setPayments(await res.json());
+        const data = await res.json();
+        setPayments(data);
+        // Extract lease info for the methods modal
+        if (data.length > 0 && data[0].lease) {
+          setPrimaryLeaseId(data[0].lease.id);
+          setPrimaryGarageName(data[0].lease.garage?.name || "Your Garage");
+        }
       }
     } catch (err) {
       console.error("Failed to load payments:", err);
@@ -81,6 +96,14 @@ export default function PaymentsPage() {
     { key: "PAST_DUE", label: "Past Due" },
     { key: "PAID", label: "Paid" },
   ];
+
+  const handlePaymentSuccess = (paymentId: string) => {
+    // Mark as just paid for visual feedback
+    setJustPaid((prev) => new Set(prev).add(paymentId));
+    setPayingPayment(null);
+    // Refresh to get updated statuses from server
+    fetchPayments();
+  };
 
   if (loading) {
     return (
@@ -117,9 +140,8 @@ export default function PaymentsPage() {
         </div>
       </div>
 
-      {/* Payment Method Quick Link */}
-      <Link
-        href="/settings#payment-method"
+      {/* Payment Methods — opens modal */}
+      <button
         className="card card-interactive"
         style={{
           display: "flex",
@@ -128,8 +150,14 @@ export default function PaymentsPage() {
           padding: "var(--space-3) var(--space-4)",
           marginBottom: "var(--space-4)",
           textDecoration: "none",
+          width: "100%",
+          border: "none",
+          cursor: "pointer",
+          fontFamily: "var(--font-sans)",
+          textAlign: "left",
         }}
-        id="link-manage-payment-methods"
+        onClick={() => setShowMethodsModal(true)}
+        id="btn-manage-payment-methods"
       >
         <div style={{
           width: 36,
@@ -153,7 +181,7 @@ export default function PaymentsPage() {
           </div>
         </div>
         <Icon name="chevron-right" size={16} style={{ color: "var(--ppa-gray-300)" }} />
-      </Link>
+      </button>
 
       {/* Filter Tabs */}
       <div className={styles.filterRow}>
@@ -183,56 +211,73 @@ export default function PaymentsPage() {
             <div className="empty-state-desc">No payments match this filter.</div>
           </div>
         ) : (
-          filteredPayments.map((payment) => (
-            <div className="payment-item" key={payment.id}>
-              <div className={cn("payment-icon", statusClass(payment.status))}>
-                <Icon name={statusIcon(payment.status)} size={18} />
-              </div>
-              <div className="payment-details">
-                <div className="payment-title">
-                  Monthly Lease — {payment.lease?.garage?.name || "Garage"}
+          filteredPayments.map((payment) => {
+            const wasPaid = justPaid.has(payment.id);
+            const displayStatus = wasPaid ? "PAID" : payment.status;
+
+            return (
+              <div className="payment-item" key={payment.id}>
+                <div className={cn("payment-icon", statusClass(displayStatus))}>
+                  <Icon name={statusIcon(displayStatus)} size={18} />
                 </div>
-                <div className="payment-subtitle">
-                  {payment.status === "PAID" && payment.paidAt
-                    ? `Paid ${formatDate(payment.paidAt, "short")}`
-                    : payment.status === "PAST_DUE"
-                    ? `Due ${formatDate(payment.dueDate, "short")} — overdue`
-                    : `Due ${formatDate(payment.dueDate, "relative")}`}
+                <div className="payment-details">
+                  <div className="payment-title">
+                    Monthly Lease — {payment.lease?.garage?.name || "Garage"}
+                  </div>
+                  <div className="payment-subtitle">
+                    {displayStatus === "PAID" && (wasPaid ? "Just paid" : payment.paidAt ? `Paid ${formatDate(payment.paidAt, "short")}` : "Paid")}
+                    {displayStatus === "PAST_DUE" && `Due ${formatDate(payment.dueDate, "short")} — overdue`}
+                    {displayStatus === "PENDING" && `Due ${formatDate(payment.dueDate, "relative")}`}
+                  </div>
+                </div>
+                <div className={styles.paymentRight}>
+                  <div className={cn("payment-amount", displayStatus === "PAID" && "credit")}>
+                    {formatCurrency(payment.amount)}
+                  </div>
+                  {(displayStatus === "PAST_DUE" || displayStatus === "PENDING") && (
+                    <button
+                      className="btn btn-primary btn-sm"
+                      id={`pay-${payment.id}`}
+                      onClick={() => setPayingPayment(payment)}
+                    >
+                      Pay
+                    </button>
+                  )}
+                  {displayStatus === "PAID" && (
+                    <span
+                      className="badge badge-success"
+                      style={{ fontSize: "10px" }}
+                    >
+                      <span className="badge-dot" />
+                      {wasPaid ? "Paid" : "Paid"}
+                    </span>
+                  )}
                 </div>
               </div>
-              <div className={styles.paymentRight}>
-                <div className={cn("payment-amount", payment.status === "PAID" && "credit")}>
-                  {formatCurrency(payment.amount)}
-                </div>
-                {(payment.status === "PAST_DUE" || payment.status === "PENDING") && (
-                  <button
-                    className="btn btn-primary btn-sm"
-                    id={`pay-${payment.id}`}
-                    onClick={() => setPayingPayment(payment)}
-                  >
-                    Pay
-                  </button>
-                )}
-                {payment.status === "PAID" && (
-                  <button className="btn btn-ghost btn-sm">Receipt</button>
-                )}
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
-      {/* Stripe Payment Modal */}
+      {/* Stripe Payment Modal (with saved card selection) */}
       {payingPayment && (
         <PaymentModal
           paymentId={payingPayment.id}
           amount={parseFloat(payingPayment.amount)}
           garageName={payingPayment.lease?.garage?.name || "Garage"}
           onClose={() => setPayingPayment(null)}
+          onSuccess={() => handlePaymentSuccess(payingPayment.id)}
+        />
+      )}
+
+      {/* Payment Methods Modal */}
+      {showMethodsModal && primaryLeaseId && (
+        <AutoPayModal
+          leaseId={primaryLeaseId}
+          garageName={primaryGarageName}
+          onClose={() => setShowMethodsModal(false)}
           onSuccess={() => {
-            setPayingPayment(null);
-            // Refresh payments to show updated status
-            fetchPayments();
+            setShowMethodsModal(false);
           }}
         />
       )}

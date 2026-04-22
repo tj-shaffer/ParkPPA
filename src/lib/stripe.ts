@@ -30,7 +30,10 @@ export async function createPaymentIntent(
     amount: amountCents,
     currency: "usd",
     metadata,
-    payment_method_types: ["card"],
+    automatic_payment_methods: {
+      enabled: true,
+      allow_redirects: "never",
+    },
   });
 
   return {
@@ -62,7 +65,10 @@ export async function createSetupIntent(
   const setupIntent = await stripe.setupIntents.create({
     customer: customerId,
     metadata,
-    payment_method_types: ["card"],
+    automatic_payment_methods: {
+      enabled: true,
+      allow_redirects: "never",
+    },
   });
 
   return {

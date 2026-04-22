@@ -66,8 +66,12 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ clientSecret });
-  } catch (error) {
-    console.error("POST /api/payments/setup-intent error:", error);
-    return NextResponse.json({ error: "Failed to initialize auto-pay setup" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("POST /api/payments/setup-intent error:", message, error);
+    return NextResponse.json(
+      { error: `Failed to initialize card setup: ${message}` },
+      { status: 500 }
+    );
   }
 }

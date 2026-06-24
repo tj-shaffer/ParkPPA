@@ -46,9 +46,9 @@ export default function AdminApplicationsPage() {
   return (
     <div className="page-content stagger-in">
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-6)" }}>
+      <div className="admin-hero" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
-          <h1 style={{ fontSize: "var(--text-2xl)", marginBottom: "var(--space-1)" }}>Applications</h1>
+          <h1 style={{ marginBottom: "var(--space-1)" }}>Applications</h1>
           <p className="text-muted">Review and approve new lease requests</p>
         </div>
       </div>

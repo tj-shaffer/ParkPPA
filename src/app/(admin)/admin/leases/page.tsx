@@ -85,7 +85,7 @@ export default function LeasesPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <div className={styles.pageTitle}>
+        <div className={`admin-hero ${styles.pageTitle}`}>
           <div><h1>Lease Management</h1><p>Loading...</p></div>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function LeasesPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.pageTitle}>
+      <div className={`admin-hero ${styles.pageTitle}`}>
         <div>
           <h1>Lease Management</h1>
           <p>

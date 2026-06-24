@@ -42,7 +42,7 @@ export default function GaragesPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <div className={styles.pageTitle}>
+        <div className={`admin-hero ${styles.pageTitle}`}>
           <div>
             <h1>Garages & Facilities</h1>
             <p>Loading...</p>
@@ -54,7 +54,7 @@ export default function GaragesPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.pageTitle}>
+      <div className={`admin-hero ${styles.pageTitle}`}>
         <div>
           <h1>Garages & Facilities</h1>
           <p>Manage all {garages.length} PPA facilities</p>

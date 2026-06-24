@@ -958,6 +958,31 @@ a:hover {
   font-size: var(--text-sm);
 }
 
+/* ─── Admin Hero Header (gradient banner for admin pages) ─────────────────── */
+.admin-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(360px 170px at 92% -30%, rgba(200, 16, 46, 0.4), transparent 70%),
+    linear-gradient(135deg, var(--ppa-navy) 0%, var(--ppa-navy-hero) 60%, var(--ppa-blue-mid) 135%);
+  color: #fff;
+  box-shadow: 0 14px 30px -16px rgba(27, 42, 74, 0.5);
+}
+
+.admin-hero h1 {
+  color: #fff;
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-1);
+}
+
+.admin-hero p {
+  color: var(--ppa-blue-pale);
+  font-size: var(--text-sm);
+}
+
 /* ─── Divider ────────────────────────────────────────────────────────────── */
 .divider {
   height: 1px;

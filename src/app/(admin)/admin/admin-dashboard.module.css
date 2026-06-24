@@ -27,6 +27,16 @@
   margin-bottom: var(--space-6);
 }
 
+/* highlighted "hero" metric (revenue) */
+.statHero {
+  background: linear-gradient(135deg, var(--ppa-navy-hero), var(--ppa-navy)) !important;
+  border: none !important;
+  box-shadow: 0 16px 34px -14px rgba(27, 42, 74, 0.5) !important;
+}
+.statHero :global(.stat-card-label) { color: rgba(255, 255, 255, 0.75); }
+.statHero :global(.stat-card-value) { color: #fff; }
+.statHero :global(.stat-card-trend) { color: rgba(255, 255, 255, 0.85) !important; }
+
 @media (max-width: 900px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);

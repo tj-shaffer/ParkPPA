@@ -56,7 +56,7 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <div className={styles.adminDash}>
-        <div className={styles.pageTitle}>
+        <div className="admin-hero">
           <h1>Dashboard</h1>
           <p>Loading...</p>
         </div>
@@ -66,7 +66,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div className={styles.adminDash}>
-      <div className={styles.pageTitle}>
+      <div className="admin-hero">
         <h1>Dashboard</h1>
         <p>Pittsburgh Parking Authority — System Overview</p>
       </div>
@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
       {/* Stats Grid */}
       <div className={cn(styles.statsGrid, "stagger-in")}>
         {stats.map((stat) => (
-          <div className="stat-card" key={stat.label}>
+          <div className={cn("stat-card", stat.label.startsWith("Revenue") && styles.statHero)} key={stat.label}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
               <div>
                 <div className="stat-card-label">{stat.label}</div>

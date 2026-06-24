@@ -95,7 +95,7 @@ export default function RevenuePage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <div className={styles.pageTitle}>
+        <div className={`admin-hero ${styles.pageTitle}`}>
           <h1>Revenue Dashboard</h1>
           <p>Loading...</p>
         </div>
@@ -115,7 +115,7 @@ export default function RevenuePage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.pageTitle}>
+      <div className={`admin-hero ${styles.pageTitle}`}>
         <h1>Revenue Dashboard</h1>
         <p>Financial overview across all facilities</p>
       </div>

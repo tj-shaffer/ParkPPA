@@ -101,7 +101,7 @@ export default function NotificationsPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <div className={styles.pageTitle}>
+        <div className={`admin-hero ${styles.pageTitle}`}>
           <div><h1>Notifications</h1><p>Loading...</p></div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function NotificationsPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.pageTitle}>
+      <div className={`admin-hero ${styles.pageTitle}`}>
         <div>
           <h1>Notifications</h1>
           <p>Notification log and compose</p>

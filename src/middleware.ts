@@ -32,6 +32,12 @@ const PUBLIC_PATHS = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Demo showcase: authentication is disabled. Let every route through and
+  // rely on the demo session fallback in getSession() (see src/lib/auth.ts).
+  if (process.env.DEMO_MODE === "true") {
+    return NextResponse.next();
+  }
+
   // Allow public paths through
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
     return NextResponse.next();

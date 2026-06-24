@@ -37,14 +37,26 @@ export async function createSession(userId: string, role: string) {
 export async function getSession() {
   const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
-  if (!token) return null;
 
-  try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
-    return payload as { userId: string; role: string };
-  } catch {
-    return null;
+  if (token) {
+    try {
+      const { payload } = await jwtVerify(token, JWT_SECRET);
+      return payload as { userId: string; role: string };
+    } catch {
+      // Invalid/expired token — fall through to demo resolution below.
+    }
   }
+
+  // Demo showcase: no real authentication. Resolve a seeded user from the
+  // `demo_role` cookie set by the top-right Consumer/Admin switcher
+  // (defaults to the consumer). This is what lets the app run without login.
+  if (process.env.DEMO_MODE === "true") {
+    const demoRole = cookieStore.get("demo_role")?.value === "admin" ? "ADMIN" : "CONSUMER";
+    const user = await prisma.user.findFirst({ where: { role: demoRole } });
+    if (user) return { userId: user.id, role: user.role };
+  }
+
+  return null;
 }
 
 export async function destroySession() {

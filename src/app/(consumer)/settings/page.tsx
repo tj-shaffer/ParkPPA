@@ -334,7 +334,7 @@ export default function SettingsPage() {
             style={{ justifyContent: "flex-start", color: "var(--ppa-gray-500)" }}
             onClick={async () => {
               await fetch("/api/auth/logout", { method: "POST" });
-              window.location.href = "/login";
+              window.location.href = "/";
             }}
             id="btn-sign-out"
           >

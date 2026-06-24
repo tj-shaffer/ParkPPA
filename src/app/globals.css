@@ -271,7 +271,8 @@ a:hover {
 /* ─── Card Component ─────────────────────────────────────────────────────── */
 .card {
   background: var(--ppa-white);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--ppa-gray-100);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
   padding: var(--space-5);
   transition: box-shadow var(--transition-base), transform var(--transition-base);
@@ -341,24 +342,28 @@ a:hover {
 
 /* Primary — PPA Crimson */
 .btn-primary {
-  background: var(--ppa-crimson);
+  background: linear-gradient(135deg, var(--ppa-crimson-light), var(--ppa-crimson));
   color: var(--ppa-white);
+  box-shadow: 0 6px 16px rgba(200, 16, 46, 0.26);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--ppa-crimson-dark);
-  box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+  background: linear-gradient(135deg, var(--ppa-crimson), var(--ppa-crimson-dark));
+  box-shadow: 0 10px 22px rgba(200, 16, 46, 0.4);
+  transform: translateY(-1px);
 }
 
 /* Secondary — PPA Navy */
 .btn-secondary {
-  background: var(--ppa-navy);
+  background: linear-gradient(135deg, var(--ppa-navy-hero), var(--ppa-navy));
   color: var(--ppa-white);
+  box-shadow: 0 6px 16px rgba(27, 42, 74, 0.24);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--ppa-navy-deep);
-  box-shadow: 0 4px 12px rgba(27, 42, 74, 0.3);
+  background: linear-gradient(135deg, var(--ppa-navy), var(--ppa-navy-deep));
+  box-shadow: 0 10px 22px rgba(27, 42, 74, 0.34);
+  transform: translateY(-1px);
 }
 
 /* Outline */
@@ -579,7 +584,9 @@ a:hover {
   top: 0;
   bottom: 0;
   width: var(--sidebar-width);
-  background: var(--ppa-navy);
+  background:
+    radial-gradient(300px 200px at 50% 0%, rgba(200, 16, 46, 0.18), transparent 70%),
+    linear-gradient(180deg, var(--ppa-navy-deep) 0%, var(--ppa-navy) 55%, #15213d 100%);
   color: white;
   z-index: var(--z-fixed);
   display: flex;
@@ -641,9 +648,16 @@ a:hover {
 /* ─── Stat Card (Admin) ──────────────────────────────────────────────────── */
 .stat-card {
   background: var(--ppa-white);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--ppa-gray-100);
+  border-radius: var(--radius-xl);
   padding: var(--space-5);
   box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 .stat-card-label {
@@ -920,10 +934,17 @@ a:hover {
 
 /* ─── Page Header ────────────────────────────────────────────────────────── */
 .page-header {
-  background: linear-gradient(135deg, var(--ppa-navy) 0%, var(--ppa-navy-hero) 50%, var(--ppa-blue-mid) 100%);
+  position: relative;
+  background:
+    radial-gradient(460px 220px at 90% -50%, rgba(200, 16, 46, 0.4), transparent 70%),
+    linear-gradient(135deg, var(--ppa-navy) 0%, var(--ppa-navy-hero) 55%, var(--ppa-blue-mid) 125%);
   color: white;
-  padding: var(--space-8) var(--content-padding) var(--space-6);
+  /* extra top padding clears the fixed demo switcher */
+  padding: calc(var(--space-8) + 26px) var(--content-padding) var(--space-8);
   margin: calc(-1 * var(--space-6)) calc(-1 * var(--content-padding)) var(--space-4);
+  border-bottom-left-radius: var(--radius-2xl);
+  border-bottom-right-radius: var(--radius-2xl);
+  box-shadow: 0 14px 34px -16px rgba(27, 42, 74, 0.5);
 }
 
 .page-header h1 {
